@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffcad4;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .bear-img {
+            width: 200px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            color: #b91d47;
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .yes {
+            background-color: #4caf50;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            z-index: 100;
+        }
+
+        .no {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .heart {
+            position: absolute;
+            top: -10%;
+            color: #ff4d6d;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        .success-text {
+            font-size: 28px;
+            color: #b91d47;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-content">
+        <img src="https://media.tenor.com/ICm8f_LPr_0AAAAi/bear-cute.gif" alt="Cute Bear" class="bear-img">
+        
+        <h1>Пойдём в субботу на свиданку/гулянку?</h1>
+
+        <div class="buttons">
+            <button id="yesBtn" class="btn yes">Иә 😊</button>
+            <button id="noBtn" class="btn no">Иә дешіііі</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainContainer = document.getElementById('main-content');
+
+        const phrases = [
+            "Жоооқ", "Точно ма?", "Пожалуйста", "Позязя", 
+            "Ну пж пж пж", "Өтінемін...", "Сенімдісің бе?", "Жоқ демеші"
+        ];
+
+        let phraseIndex = 0;
+        let noScale = 1;
+        let yesScale = 1;
+
+        noBtn.addEventListener('click', () => {
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            noBtn.innerText = phrases[phraseIndex];
+            
+            noScale -= 0.1;
+            if (noScale < 0.2) noScale = 0.2;
+            noBtn.style.transform = `scale(${noScale})`;
+
+            yesScale += 0.5;
+            yesBtn.style.transform = `scale(${yesScale})`;
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        yesBtn.addEventListener('click', () => {
+            mainContainer.innerHTML = `
+                <img src="https://media.tenor.com/9v4_RnoIisYAAAAi/peach-goma.gif" class="bear-img">
+                <div class="success-text">Урааа! ❤️</div>
+                <p style="font-size: 20px; color: #b91d47;">Жду когда напишешь!</p>
+            `;
+
+            setInterval(createHeart, 200);
+        });
+    </script>
+</body>
+</html>
